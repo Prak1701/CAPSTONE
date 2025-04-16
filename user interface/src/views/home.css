@@ -1,0 +1,112 @@
+/* ======= EXISTING STYLES (KEEP ALL THESE) ======= */
+.email-input-container {
+  width: 100%;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--dl-color-theme-secondary2);
+}
+
+.email-input-main {
+  width: 100%;
+  max-width: 800px;
+  padding: var(--dl-layout-space-fourunits);
+  margin: var(--dl-layout-space-threeunits) 0;
+}
+
+.email-input-main h1 {
+  color: var(--dl-color-theme-primary1);
+  margin-bottom: var(--dl-layout-space-unit);
+  font-family: 'STIX Two Text', serif;
+}
+
+.email-input-main p {
+  color: var(--dl-color-theme-neutral-dark);
+  margin-bottom: var(--dl-layout-space-threeunits);
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.email-input-form {
+  background: var(--dl-color-theme-neutral-light);
+  padding: var(--dl-layout-space-threeunits);
+  border-radius: var(--dl-layout-radius-cardradius);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: var(--dl-layout-space-twounits);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--dl-layout-space-halfunit);
+  color: var(--dl-color-theme-neutral-dark);
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: var(--dl-layout-space-unit);
+  border: 1px solid var(--dl-color-theme-neutral-dark);
+  border-radius: var(--dl-layout-radius-inputradius);
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.form-group textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.file-input {
+  padding: 0;
+  border: none;
+}
+
+.submit-button {
+  width: 100%;
+  padding: var(--dl-layout-space-unit);
+  background: var(--dl-color-theme-primary1);
+  color: white;
+  border: none;
+  border-radius: var(--dl-layout-radius-buttonradius);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-button:hover {
+  background: var(--dl-color-theme-primary2);
+}
+
+/* ======= NEW SECTION STYLES (ADDED BELOW) ======= */
+.features-section {
+  padding: 3rem 0;
+  margin: 2rem 0;
+  background: var(--dl-color-theme-secondary1);
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--dl-color-theme-primary1);
+  margin-bottom: 2rem;
+  font-family: 'STIX Two Text', serif;
+  position: relative;
+}
+
+.section-title:after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: var(--dl-color-theme-accent2);
+  margin: 0.5rem auto 0;
+}
+
+/* Optional: Add some hover effects to feature cards */
+.feature-card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+}

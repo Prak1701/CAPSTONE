@@ -1,0 +1,40 @@
+.history-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--dl-color-theme-secondary2);
+  }
+  
+  .history-content {
+    flex: 1;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .history-unsigned h2 {
+    margin-bottom: 1rem;
+  }
+  
+  .history-noscans, 
+  .history-scans {
+    background: var(--dl-color-theme-neutral-light);
+    padding: 2rem;
+    border-radius: var(--dl-layout-radius-cardradius);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .history-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+   
+  .scan-item {
+    background: white;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: var(--dl-layout-radius-inputradius);
+  }
