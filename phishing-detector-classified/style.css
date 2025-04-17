@@ -1,0 +1,15 @@
+.status-badge {
+  position: fixed;
+  top: 80px;
+  right: 30px;
+  background-color: gray;
+  padding: 8px 12px;
+  border-radius: 12px;
+  color: white;
+  font-weight: bold;
+  z-index: 10000;
+  font-family: Arial, sans-serif;
+}
+.Safe { background-color: green; }
+.Suspicious { background-color: orange; }
+.Danger { background-color: red; }
