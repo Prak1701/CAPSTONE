@@ -57,7 +57,7 @@ const Home = (props) => {
         }
         link4={
           <Fragment>
-            <span className="home-text17">/result</span>
+            <span className="home-text17">Plugin</span>
           </Fragment>
         }
         page1Description={

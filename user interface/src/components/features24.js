@@ -5,7 +5,7 @@ import './features24.css'
 // Correct the import paths
 import attachmentImage from '../assets/attachment.jpg';  // Corrected path
 import emailImage from '../assets/email.jpg';            // Corrected path
-import realtimeImage from '../assets/realtime.jpg';      // Corrected path
+import realtimeImage from '../assets/realtime.png';      // Corrected path
 
 const Features24 = (props) => {
   const [activeTab, setActiveTab] = useState(0)
