@@ -9,16 +9,16 @@ const EmailInput = () => {
     senderEmail: '',
     subject: '',
     content: '',
-    attachment: null
+    attachment: null,
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e) => {
-    setFormData(prev => ({ ...prev, attachment: e.target.files[0] }));
+    setFormData((prev) => ({ ...prev, attachment: e.target.files[0] }));
   };
 
   const handleSubmit = (e) => {
@@ -32,7 +32,7 @@ const EmailInput = () => {
       <Helmet>
         <title>Email Analysis | Superior Unique Pigeon</title>
       </Helmet>
-      
+
       <Navbar8
         link1="Home"
         link2="Email Input"
@@ -40,11 +40,11 @@ const EmailInput = () => {
         action1="Sign In"
         action2="Verify Identity"
       />
-      
+
       <main className="email-input-main">
         <h1>Email Analysis</h1>
         <p>Submit email details to check for phishing attempts</p>
-        
+
         <form onSubmit={handleSubmit} className="email-input-form">
           <div className="form-group">
             <label>Sender Email</label>
@@ -57,7 +57,7 @@ const EmailInput = () => {
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label>Subject</label>
             <input
@@ -69,7 +69,7 @@ const EmailInput = () => {
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label>Email Content</label>
             <textarea
@@ -81,7 +81,7 @@ const EmailInput = () => {
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label>Attachment (Optional)</label>
             <input
@@ -90,13 +90,13 @@ const EmailInput = () => {
               className="file-input"
             />
           </div>
-          
+
           <button type="submit" className="submit-button">
             Analyze Email
           </button>
         </form>
       </main>
-      
+
       <Footer4 />
     </div>
   );

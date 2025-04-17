@@ -1,8 +1,11 @@
 import React, { useState, Fragment } from 'react'
-
 import PropTypes from 'prop-types'
-
 import './features24.css'
+
+// Correct the import paths
+import attachmentImage from '../assets/attachment.jpg';  // Corrected path
+import emailImage from '../assets/email.jpg';            // Corrected path
+import realtimeImage from '../assets/realtime.jpg';      // Corrected path
 
 const Features24 = (props) => {
   const [activeTab, setActiveTab] = useState(0)
@@ -13,21 +16,21 @@ const Features24 = (props) => {
           {activeTab === 0 && (
             <img
               alt={props.feature1ImgAlt}
-              src={props.feature1ImgSrc}
+              src={emailImage} // Use the email image here
               className="features24-image1 thq-img-ratio-16-9"
             />
           )}
           {activeTab === 1 && (
             <img
               alt={props.feature2ImgAlt}
-              src={props.feature2ImgSrc}
+              src={attachmentImage} // Use the attachment image here
               className="features24-image2 thq-img-ratio-16-9"
             />
           )}
           {activeTab === 2 && (
             <img
               alt={props.feature3ImgAlt}
-              src={props.feature3ImgSrc}
+              src={realtimeImage} // Use the real-time image here
               className="features24-image3 thq-img-ratio-16-9"
             />
           )}
@@ -128,16 +131,13 @@ Features24.defaultProps = {
   feature1ImgAlt: 'Email Content Analysis Image',
   feature3Description: undefined,
   feature3Title: undefined,
-  feature3ImgSrc:
-    'https://images.unsplash.com/photo-1583587446563-7b9d93c74ae5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTc0NDY0MjAzM3w&ixlib=rb-4.0.3&q=80&w=1080',
-  feature1ImgSrc:
-    'https://images.unsplash.com/photo-1582571881821-380713f48b29?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTc0NDY0MjAzNHw&ixlib=rb-4.0.3&q=80&w=1080',
+  feature3ImgSrc: realtimeImage, // Use the imported real-time image
+  feature1ImgSrc: emailImage,    // Use the imported email image
   feature2Description: undefined,
   feature1Title: undefined,
   feature3ImgAlt: 'Real-Time Results Image',
   feature1Description: undefined,
-  feature2ImgSrc:
-    'https://images.unsplash.com/photo-1601585612823-0d8787c1e019?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTc0NDY0MjAzNHw&ixlib=rb-4.0.3&q=80&w=1080',
+  feature2ImgSrc: attachmentImage, // Use the imported attachment image
   feature2ImgAlt: 'File Attachment Scanning Image',
   feature2Title: undefined,
 }
