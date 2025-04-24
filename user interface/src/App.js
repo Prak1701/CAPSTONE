@@ -1,17 +1,16 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Steps2 from './components/steps2';  // Import your Steps2 component
-import EmailInput from './views/email-input';  // Import the Email Input component
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import Steps2 from './components/steps2';
+import EmailInput from './views/email-input';
+import Signup from './views/signup'; // <-- New Signup page
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Home route for steps2 */}
-        <Route path="/" element={<Steps2 />} />  
-        
-        {/* Route for the email input page */}
-        <Route path="/email-input" element={<EmailInput />} />  
+        <Route path="/" element={<Steps2 />} />
+        <Route path="/signup" element={<Signup />} /> {/* Signup route */}
+        <Route path="/email-input" element={<EmailInput />} />
       </Routes>
     </Router>
   );
