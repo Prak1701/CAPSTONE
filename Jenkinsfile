@@ -1,22 +1,16 @@
 pipeline {
     agent any
 
-    environment {
-        NODE_ENV = 'development'
-    }
-
     stages {
         stage('Clone Repository') {
             steps {
-                echo 'Cloning repository...'
-                checkout scm
+                git branch: 'main', url: 'https://github.com/Prak1701/CAPSTONE.git'
             }
         }
 
         stage('Install Backend Dependencies') {
             steps {
-                dir('detect/backend') {
-                    echo 'Installing backend dependencies...'
+                dir('backend') {
                     sh 'npm install'
                 }
             }
@@ -25,7 +19,6 @@ pipeline {
         stage('Install Frontend Dependencies') {
             steps {
                 dir('user interface') {
-                    echo 'Installing frontend dependencies...'
                     sh 'npm install'
                 }
             }
@@ -34,28 +27,17 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('user interface') {
-                    echo 'Building React frontend...'
                     sh 'npm run build'
                 }
             }
         }
 
-        stage('Run Backend') {
+        stage('Start Backend') {
             steps {
-                dir('detect/backend') {
-                    echo 'Running backend server...'
+                dir('backend') {
                     sh 'npm start &'
                 }
             }
-        }
-    }
-
-    post {
-        success {
-            echo '✅ CI/CD Pipeline completed successfully.'
-        }
-        failure {
-            echo '❌ Pipeline execution failed.'
         }
     }
 }
