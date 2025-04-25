@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Navbar8 from '../components/navbar8';
 import Footer4 from '../components/footer4';
 import './signup.css';
 
 const Signup = () => {
-  const navigate = useNavigate();
+  const history = useHistory();
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
 
   const handleChange = (e) => {
@@ -16,7 +16,7 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('User signed up:', formData);
-    navigate('/email-input');
+    history.push('/email-input');
   };
 
   return (

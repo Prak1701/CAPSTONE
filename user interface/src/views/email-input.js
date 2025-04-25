@@ -24,7 +24,6 @@ const EmailInput = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Submitted:', formData);
-    // Here you would send the data to your backend
   };
 
   return (
@@ -33,14 +32,7 @@ const EmailInput = () => {
         <title>Email Analysis | Superior Unique Pigeon</title>
       </Helmet>
 
-      <Navbar8
-        link1="Home"
-        link2="Email Input"
-        link3="History"
-        action1="Sign In"
-        action2="Verify Identity"
-      />
-
+      <Navbar8 />
       <main className="email-input-main">
         <h1>Email Analysis</h1>
         <p>Submit email details to check for phishing attempts</p>
@@ -91,12 +83,9 @@ const EmailInput = () => {
             />
           </div>
 
-          <button type="submit" className="submit-button">
-            Analyze Email
-          </button>
+          <button type="submit" className="submit-button">Analyze Email</button>
         </form>
       </main>
-
       <Footer4 />
     </div>
   );

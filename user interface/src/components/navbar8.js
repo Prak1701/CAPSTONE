@@ -12,8 +12,8 @@ const Navbar8 = (props) => {
             <Link to="/" className="navbar8-link11 thq-link thq-body-small">
               {props.link1 ?? <span className="navbar8-text18">home</span>}
             </Link>
-            <Link to="/signup" className="thq-link thq-body-small">
-              {props.link2 ?? <span className="navbar8-text16">sign Up</span>}
+            <Link to="/email-input" className="thq-link thq-body-small">
+              {props.link2 ?? <span className="navbar8-text16">email input</span>}
             </Link>
             <Link to="/history" className="navbar8-link31 thq-link thq-body-small">
               {props.link3 ?? <span className="navbar8-text24">history</span>}
