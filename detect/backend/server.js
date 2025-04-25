@@ -1,32 +1,21 @@
+// server.js
 const express = require('express');
-const fetch = require('node-fetch'); // make sure to install this: npm install node-fetch
-const cors = require('cors');
-
 const app = express();
-app.use(cors());
-app.use(express.json());
+const cors = require('cors');
+const connectDB = require('./db'); // Import DB connection
+const emailRoutes = require('./routes/emailRoutes'); // Import email routes
 
-app.post('/api/analyze', async (req, res) => {
-  const { email, subject, content } = req.body;
+// Middleware
+app.use(express.json()); // Parse incoming JSON requests
+app.use(cors()); // Enable CORS
 
-  const fullText = `${email}\n${subject}\n${content}`;
+// Connect to MongoDB
+connectDB();
 
-  try {
-    const response = await fetch('http://localhost:5001/analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: fullText })
-    });
+// Use email analysis routes
+app.use('/api', emailRoutes);
 
-    const data = await response.json();
-    res.json({ result: data.result });
-  } catch (error) {
-    console.error('Error calling ML API:', error);
-    res.status(500).json({ result: 'Error analyzing email' });
-  }
-});
-
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Express server listening on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

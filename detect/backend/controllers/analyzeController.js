@@ -1,47 +1,42 @@
-const axios = require('axios');
-const { checkSenderReputation } = require('../utils/senderReputation');
-const { checkUrls } = require('../utils/urlChecker');
+// controllers/analyzeController.js
+const Email = require('../models/Email');
+
+// Example phishing detection logic
+const detectPhishing = (content) => {
+  if (content.includes("urgent") || content.includes("password")) {
+    return "dangerous";
+  }
+  if (content.includes("offer") || content.includes("click here")) {
+    return "suspicious";
+  }
+  return "safe";
+};
 
 exports.analyzeEmail = async (req, res) => {
-  const { email, subject, content } = req.body;
-
   try {
-    const foundUrls = content.match(/https?:\/\/[^\s]+/g) || [];
-    const { unsafeUrls, suspiciousUrls } = await checkUrls(foundUrls);
-    const senderReputation = checkSenderReputation(email);
+    const { senderEmail, subject, content, attachment } = req.body;
 
-    // 🔥 Call ML Flask API
-    const mlResponse = await axios.post("http://localhost:5001/analyze", {
-      text: `${subject} ${content}`
-    });
-    const { result: mlResult, label, score: mlScore } = mlResponse.data;
+    // Perform phishing detection on email content
+    const phishingResult = detectPhishing(content);
 
-    let score = 0;
-    if (unsafeUrls.length > 0) score += 2;
-    else if (suspiciousUrls.length > 0) score += 1;
-
-    if (senderReputation === 'bad') score += 2;
-    else if (senderReputation === 'unknown') score += 1;
-
-    if (mlResult === 'dangerous') score += 2;
-    else if (mlResult === 'suspicious') score += 1;
-
-    let finalResult = 'safe';
-    if (score >= 5) finalResult = 'dangerous';
-    else if (score >= 3) finalResult = 'suspicious';
-
-    res.json({
-      result: finalResult,
-      score,
-      unsafeUrls,
-      suspiciousUrls,
-      senderReputation,
-      mlResult,
-      mlConfidence: mlScore
+    // Save email data along with phishing result
+    const newEmail = new Email({
+      senderEmail,
+      subject,
+      content,
+      attachment,
+      phishingResult,
     });
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error during analysis' });
+    await newEmail.save();
+
+    res.status(200).json({
+      message: 'Email analyzed and stored successfully',
+      email: newEmail,
+      phishingResult,
+    });
+  } catch (error) {
+    console.error('Error analyzing email:', error);
+    res.status(500).json({ message: 'Error analyzing email', error });
   }
 };

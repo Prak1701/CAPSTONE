@@ -12,6 +12,8 @@ const EmailInput = () => {
     attachment: null,
   });
 
+  const [phishingResult, setPhishingResult] = useState('');
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -21,9 +23,31 @@ const EmailInput = () => {
     setFormData((prev) => ({ ...prev, attachment: e.target.files[0] }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Submitted:', formData);
+
+    try {
+      // Send the email data to the backend API for phishing analysis
+      const response = await fetch('http://localhost:5000/api/analyze', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setPhishingResult(result.phishingResult); // Update phishing result state
+        console.log('Email analyzed and stored successfully:', result);
+      } else {
+        console.error('Error analyzing email:', result);
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+    }
   };
 
   return (
@@ -85,6 +109,12 @@ const EmailInput = () => {
 
           <button type="submit" className="submit-button">Analyze Email</button>
         </form>
+
+        {phishingResult && (
+          <div className="phishing-result">
+            <h3>Phishing Detection Result: {phishingResult}</h3>
+          </div>
+        )}
       </main>
       <Footer4 />
     </div>
