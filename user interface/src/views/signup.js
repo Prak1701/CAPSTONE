@@ -1,43 +1,108 @@
-import './signin.css';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import './signup.css';
 
-const SignIn = () => {
-  const [credentials, setCredentials] = useState({ email: '', password: '' });
+const Signup = () => {
   const history = useHistory();
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: ''
+  });
 
-  const handleSubmit = (e) => {
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+    setError('');
+  };
+
+  const isFakeEmail = (email) => {
+    const fakePatterns = [
+      /^test@/i,
+      /^abc@/i,
+      /^example@/i,
+      /@example\.com$/i,
+      /^user@/i,
+      /^demo@/i,
+      /^admin@/i
+    ];
+    return fakePatterns.some(pattern => pattern.test(email));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem('isAuthenticated', 'true');
-    history.push('/history');
+
+    if (isFakeEmail(formData.email)) {
+      setError('Please use a valid personal or work email address.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/signup', { // ✅ FIXED HERE
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        console.log('Signup successful!');
+        history.push('/home'); // ✅ Correct redirection after signup
+      } else {
+        const data = await response.json();
+        console.error('Signup failed:', data);
+        setError(data.error || data.message || 'Signup failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Network or Server Error:', error.message);
+      setError('Signup failed. ' + (error.message || 'Please try again.'));
+    }
   };
 
   return (
-    <div className="signin-container">
-      <div className="signin-content">
-        <div className="signin-card">
-          <h2>Authentication Page</h2>
-          <form onSubmit={handleSubmit}>
+    <div className="signup-container">
+      <main className="signup-main">
+        <div className="signup-card">
+          <h1>Sign Up</h1>
+          <p>Create an account to track your scan history</p>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          <form onSubmit={handleSubmit} className="signup-form">
+            <input
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              placeholder="Username"
+              required
+            />
             <input
               type="email"
-              placeholder="Your E-mail address"
-              value={credentials.email}
-              onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+              required
             />
             <input
               type="password"
-              placeholder="Enter your Password"
-              value={credentials.password}
-              onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+              required
             />
-            <button type="submit" className="thq-button-filled">
-              Sign In
-            </button>
+            <button type="submit" className="signup-button">Sign Up</button>
           </form>
         </div>
-      </div>
+      </main>
     </div>
   );
 };
 
-export default SignIn;
+export default Signup;

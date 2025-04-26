@@ -9,7 +9,7 @@ const Plugin = () => {
         Stay one step ahead of phishing attacks. Download our Firefox plugin and keep your emails safe, always.
       </p>
       <a
-        href="/phishing detection tool.zip"
+        href="/phishing-detector-classified.zip"
         download
         className="plugin-download-btn"
       >
