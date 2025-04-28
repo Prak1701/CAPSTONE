@@ -43,7 +43,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/signup', { // ✅ FIXED HERE
+      const response = await fetch('http://localhost:5000/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,11 +51,17 @@ const Signup = () => {
         body: JSON.stringify(formData),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         console.log('Signup successful!');
-        history.push('/home'); // ✅ Correct redirection after signup
+        
+        // ✅ Automatically log the user in:
+        localStorage.setItem('isAuthenticated', 'true');
+        localStorage.setItem('userEmail', formData.email);
+
+        history.push('/home'); // ✅ Redirect to home after signup
       } else {
-        const data = await response.json();
         console.error('Signup failed:', data);
         setError(data.error || data.message || 'Signup failed. Please try again.');
       }

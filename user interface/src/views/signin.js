@@ -4,12 +4,30 @@ import { useHistory } from 'react-router-dom';
 
 const SignIn = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
   const history = useHistory();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem('isAuthenticated', 'true');
-    history.push('/history');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('userEmail', data.email); // ✅ Save email after login
+        history.push('/history');
+      } else {
+        setError(data.message || 'Invalid credentials');
+      }
+    } catch (error) {
+      setError('Network error. Please try again later.');
+    }
   };
 
   return (
@@ -34,6 +52,7 @@ const SignIn = () => {
               Sign In
             </button>
           </form>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
         </div>
       </div>
     </div>

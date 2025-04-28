@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Navbar8 from '../components/navbar8';
@@ -8,14 +8,42 @@ import './history.css';
 const History = () => {
   const history = useHistory();
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [hasScans, setHasScans] = useState(false);
+  const [scanData, setScanData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const auth = localStorage.getItem('isAuthenticated');
+    setIsSignedIn(auth === 'true');
+
+    if (auth === 'true') {
+      fetchScanHistory();
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  const fetchScanHistory = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/email');
+      if (response.ok) {
+        const data = await response.json();
+        setScanData(data);
+      } else {
+        console.error('Failed to fetch scan history.');
+      }
+    } catch (error) {
+      console.error('Error fetching scan history:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="history-container">
       <Helmet>
         <title>Scan History</title>
       </Helmet>
-      
+
       <Navbar8 
         link1="Home"
         link2="Email Input"
@@ -23,7 +51,9 @@ const History = () => {
       />
 
       <main className="history-content">
-        {!isSignedIn ? (
+        {loading ? (
+          <p>Loading...</p>
+        ) : !isSignedIn ? (
           <div className="history-unsigned">
             <h2>Hold Up! You haven't Signed In yet.</h2>
             <p>Your scans are classified! Authenticate yourself first:</p>
@@ -42,7 +72,7 @@ const History = () => {
               </button>
             </div>
           </div>
-        ) : !hasScans ? (
+        ) : scanData.length === 0 ? (
           <div className="history-noscans">
             <h2>Report: No Data Found</h2>
             <p>You haven't intercepted any emails yet!</p>
@@ -56,11 +86,14 @@ const History = () => {
         ) : (
           <div className="history-scans">
             <h2>Classified Interceptions</h2>
-            <div className="scan-item">
-              <p><strong>Subject:</strong> "URGENT: Your nest has won 1 million worms!"</p>
-              <p><strong>Verdict:</strong> PHISHING ATTEMPT (100% sure)</p>
-              <p><strong>Pigeon Note:</strong> "Too many CAPS, smelled fishy"</p>
-            </div>
+            {scanData.map((scan) => (
+              <div key={scan._id} className="scan-item">
+                <p><strong>Email:</strong> {scan.senderEmail || 'Not Provided'}</p>
+                <p><strong>Subject:</strong> {scan.subject || 'No Subject'}</p>
+                <p><strong>Content:</strong> {scan.content || 'No Content'}</p>
+                <p><strong>Result:</strong> {scan.phishingResult || 'No Result'}</p>
+              </div>
+            ))}
           </div>
         )}
       </main>

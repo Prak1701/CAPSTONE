@@ -1,25 +1,44 @@
 // controllers/analyzeController.js
 const Email = require('../models/Email');
 
-// Example phishing detection logic
+// Stronger keyword + heuristic detection
 const detectPhishing = (content) => {
-  if (content.includes("urgent") || content.includes("password")) {
+  const dangerousKeywords = [
+    "urgent", "verify", "account suspended", "password reset", "update account",
+    "click here", "confirm", "login", "security alert", "unusual activity",
+    "reset your password", "payment failure", "your package", "claim your prize",
+    "restricted access", "limited time", "confirm your identity"
+  ];
+  const suspiciousLinks = /(http:\/\/|https:\/\/)[\w.-]+/g; // detect links
+
+  const contentLower = content.toLowerCase();
+  let dangerScore = 0;
+
+  dangerousKeywords.forEach(keyword => {
+    if (contentLower.includes(keyword)) {
+      dangerScore += 1;
+    }
+  });
+
+  if (suspiciousLinks.test(contentLower)) {
+    dangerScore += 1;
+  }
+
+  if (dangerScore >= 3) {
     return "dangerous";
-  }
-  if (content.includes("offer") || content.includes("click here")) {
+  } else if (dangerScore === 1 || dangerScore === 2) {
     return "suspicious";
+  } else {
+    return "safe";
   }
-  return "safe";
 };
 
 exports.analyzeEmail = async (req, res) => {
   try {
     const { senderEmail, subject, content, attachment } = req.body;
 
-    // Perform phishing detection on email content
     const phishingResult = detectPhishing(content);
 
-    // Save email data along with phishing result
     const newEmail = new Email({
       senderEmail,
       subject,

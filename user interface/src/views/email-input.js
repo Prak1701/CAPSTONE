@@ -21,9 +21,34 @@ const EmailInput = () => {
     setFormData((prev) => ({ ...prev, attachment: e.target.files[0] }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitted:', formData);
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('senderEmail', formData.senderEmail);
+    formDataToSend.append('subject', formData.subject);
+    formDataToSend.append('content', formData.content);
+    if (formData.attachment) {
+      formDataToSend.append('attachment', formData.attachment);
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/analyze', {
+        method: 'POST',
+        body: formDataToSend,
+      });
+
+      const data = await response.json();
+      console.log('Server response:', data);
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Something went wrong');
+      }
+      alert(`Phishing detection result: ${data.phishingResult}`);
+    } catch (error) {
+      console.error('Error submitting email:', error);
+      alert('Failed to analyze email. Please try again.');
+    }
   };
 
   return (
