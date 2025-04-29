@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://mongodb:27017/phishing-detector', {
+    await mongoose.connect('mongodb://host.docker.internal:27017/phishing-detector', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
