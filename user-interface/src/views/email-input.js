@@ -54,7 +54,7 @@ const EmailInput = () => {
   return (
     <div className="email-input-container">
       <Helmet>
-        <title>Email Analysis | Superior Unique Pigeon</title>
+        <title>Email Analysis | Phising Email Detection Website</title>
       </Helmet>
 
       <Navbar8 />

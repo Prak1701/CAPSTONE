@@ -16,8 +16,8 @@ const Home = (props) => {
   return (
     <div className="home-container">
       <Helmet>
-        <title>Superior Unique Pigeon</title>
-        <meta property="og:title" content="Superior Unique Pigeon" />
+        <title>Phishing Email Detection Website</title>
+        <meta property="og:title" content="Phishing Email Detection Website" />
       </Helmet>
       <Navbar8
         page4Description={
